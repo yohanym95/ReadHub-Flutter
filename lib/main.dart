@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:readhubnew/Components/components.dart';
 
 void main() => runApp(MyApp());
 
@@ -7,35 +8,55 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'ReadHub',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        centerTitle: true,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Image(
+              image: NetworkImage(url),
+              width: 50,
+              height: 50,
+            ),
+            Text(
+              'ReadHub',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  letterSpacing: 3, fontWeight: FontWeight.bold, fontSize: 20),
+            )
+          ],
+        ),
+        backgroundColor: Colors.blue,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[Colors.blue[200], Colors.blue])),
+        ),
       ),
-      body: Center(     
-      ),
+      drawer: buildDrawer(),
+      body: Center(),
     );
   }
 }
