@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:readhubnew/Components/ovalrightborderclipper.dart';
 
 String url =
-    'https://firebasestorage.googleapis.com/v0/b/blogapp-463a6.appspot.com/o/1.png?alt=media&token=a0593d88-611d-4ad7-8a0d-0db6ffac61c8';
+    'https://firebasestorage.googleapis.com/v0/b/blogapp-463a6.appspot.com/o/2.png?alt=media&token=587147af-8d63-433b-a2d1-04221ba8fd90';
 
 buildDrawer() {
   return ClipPath(
