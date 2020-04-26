@@ -83,7 +83,7 @@ Widget buildRow(IconData icon, String title) {
 Widget getCardComponent(height, imagePath, title) {
   return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      color: Colors.white,
+      color: Colors.grey[300],
       elevation: 3.0,
       child: Padding(
         padding: const EdgeInsets.all(4.0),
@@ -139,7 +139,7 @@ Widget getRecentCardComponent(
     child: Card(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        color: Colors.white,
+        color: Colors.grey[300],
         elevation: 3.0,
         child: Padding(
           padding: const EdgeInsets.only(left: 4.0, right: 4.0, top: 4.0),

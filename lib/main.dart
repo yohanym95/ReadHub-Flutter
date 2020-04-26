@@ -116,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           elevation: 10,
                           pressElevation: 20.0,
                           selected: isSelected,
-                          selectedColor: Colors.orange,
+                          selectedColor: Colors.deepPurple[400],
                           onSelected: (bool value) {
                             setState(() {
                               isSelected = true;
@@ -125,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 _pageController.animateToPage(
                                   1,
                                   duration: const Duration(milliseconds: 1000),
-                                  curve: Curves.easeOutCirc,
+                                  curve: Curves.bounceInOut,
                                 );
                               }
                             });
@@ -145,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           selected: !isSelected,
                           elevation: 10,
                           pressElevation: 10.0,
-                          selectedColor: Colors.orange,
+                          selectedColor: Colors.deepPurple[400],
                           onSelected: (bool value) {
                             setState(() {
                               isSelected = false;
@@ -154,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 _pageController.animateToPage(
                                   0,
                                   duration: const Duration(milliseconds: 1000),
-                                  curve: Curves.easeOutCirc,
+                                  curve: Curves.bounceInOut,
                                 );
                               }
                             });
