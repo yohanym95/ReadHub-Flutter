@@ -1,6 +1,8 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:readhubnew/Components/ovalrightborderclipper.dart';
+import 'package:readhubnew/model/Article.dart';
 
 String url =
     'https://firebasestorage.googleapis.com/v0/b/blogapp-463a6.appspot.com/o/readhublogo.png?alt=media&token=f20f89a5-77fe-432a-84db-a93f5f821411';
@@ -78,24 +80,40 @@ Widget buildRow(IconData icon, String title) {
   );
 }
 
-Widget getCardComponent(height) {
+Widget getCardComponent(height, imagePath, title) {
   return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       color: Colors.white,
       elevation: 3.0,
       child: Padding(
         padding: const EdgeInsets.all(4.0),
-        child: Column(
-          children: <Widget>[
-            Image(
-              image: AssetImage('assets/images/angular.png'),
-              height: height / 9,
-              width: height / 9,
-            ),
-            Container(
-              alignment: Alignment.center,
-              child: Text('Angular'),
-            ),
-          ],
+        child: Container(
+          height: height / 8,
+          width: height / 8,
+          child: Column(
+            children: <Widget>[
+              Image(
+                image: AssetImage(imagePath),
+                height: height / 11,
+                width: height / 11,
+              ),
+              SizedBox(
+                height: 2,
+              ),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ));
 }
@@ -107,61 +125,124 @@ Widget getTopicChip(topic) {
       elevation: 3,
       label: Text(
         topic,
-        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey[350]),
+        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
       ),
       backgroundColor: Colors.yellow[800],
     ),
   );
 }
 
-Widget getRecentCardComponent(height) {
+Widget getRecentCardComponent(
+    height, authorImage, authorName, image, title, date) {
   return Container(
-    width: height/3,
+    width: height / 3,
     child: Card(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         color: Colors.white,
         elevation: 3.0,
         child: Padding(
-          padding: const EdgeInsets.only(left:4.0,right: 4.0,top: 4.0),
+          padding: const EdgeInsets.only(left: 4.0, right: 4.0, top: 4.0),
           child: Column(
             children: <Widget>[
               Row(
                 children: <Widget>[
                   Container(
                     child: CircleAvatar(
-                      child: Icon(Icons.person),
+                      backgroundImage: NetworkImage(authorImage),
                     ),
                   ),
                   SizedBox(
                     width: 8,
                   ),
                   Text(
-                    'Yohan Malshika',
+                    authorName,
                     style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                   )
                 ],
               ),
               Image(
-                image: AssetImage('assets/images/recent.png'),
+                image: NetworkImage(image),
                 height: height / 6,
                 width: height / 4,
               ),
               Container(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  'ReadHub is moving to flutter',
+                  title,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
               Container(
                 padding: EdgeInsets.only(top: 4.0),
-               alignment: Alignment.bottomLeft,
+                alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Date-2020.09.30',
+                  date,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
               ),
             ],
           ),
         )),
+  );
+}
+
+Widget loadMainCard(height, title) {
+  List<Article> postList = [];
+  return FutureBuilder(
+    future: FirebaseDatabase.instance
+        .reference()
+        .child('Articles')
+        .child(title)
+        .limitToLast(5)
+        .orderByChild('id')
+        .once(),
+    // initialData: InitialData,
+    builder: (BuildContext context, AsyncSnapshot snapshot) {
+      if (snapshot.hasData) {
+        var Data = snapshot.data.value;
+        if (Data != null) {
+          var keys = snapshot.data.value.keys;
+          postList.clear();
+
+          for (var individualKey in keys) {
+            Article article = new Article(
+                Data[individualKey]['id'],
+                Data[individualKey]['title'],
+                Data[individualKey]['authorImage'],
+                Data[individualKey]['authorname'],
+                Data[individualKey]['date'],
+                Data[individualKey]['content'],
+                Data[individualKey]['image']);
+
+            postList.add(article);
+            // postList.sort();
+
+          }
+          return postList.length == 0
+              ? SizedBox(
+                  height: 10,
+                  width: 10,
+                  child: Text('No Data'),
+                )
+              : ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: postList.length,
+                  itemBuilder: (_, index) {
+                    return getRecentCardComponent(
+                        height,
+                        postList[index].authorimage,
+                        postList[index].authorname,
+                        postList[index].image,
+                        postList[index].title,
+                        postList[index].date);
+                  },
+                );
+        }
+      } else {
+        return Text('No data');
+      }
+    },
   );
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:readhubnew/Components/components.dart';
+import 'package:readhubnew/logic/callAPI.dart';
 
 void main() => runApp(MyApp());
 
@@ -26,9 +27,29 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   var data = ['Sinhala', 'English'];
   bool isSelected = false;
+  String englishUrl =
+      "https://readhub.lk/wp-json/wp/v2/posts?per_page=15&_embed";
+  String sinhalaUrl =
+      "https://sinhala.readhub.lk/wp-json/wp/v2/posts?per_page=15&_embed";
+
+  PageController _pageController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _pageController = PageController();
+    sendEnglishPosts(englishUrl);
+    sendSinhalaPosts(sinhalaUrl);
+    super.initState();
+  }
+
+  Widget mainContent;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    mainContent = getEnglishContent(height);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -86,19 +107,27 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     Center(
                         child: Row(
-                      mainAxisSize: MainAxisSize.max,
+                      // mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         ChoiceChip(
                           label: Text('Sinhala'),
-                          elevation: 5,
-                          pressElevation: 10.0,
+                          elevation: 10,
+                          pressElevation: 20.0,
                           selected: isSelected,
-                          selectedColor: Colors.green,
+                          selectedColor: Colors.orange,
                           onSelected: (bool value) {
                             setState(() {
                               isSelected = true;
+                              //  mainContent = getSinhalaContent(height);
+                              if (_pageController.hasClients) {
+                                _pageController.animateToPage(
+                                  1,
+                                  duration: const Duration(milliseconds: 1000),
+                                  curve: Curves.easeOutCirc,
+                                );
+                              }
                             });
                           },
                           backgroundColor: Colors.blue,
@@ -114,12 +143,20 @@ class _MyHomePageState extends State<MyHomePage> {
                             'English',
                           ),
                           selected: !isSelected,
-                          elevation: 5,
+                          elevation: 10,
                           pressElevation: 10.0,
-                          selectedColor: Colors.green,
+                          selectedColor: Colors.orange,
                           onSelected: (bool value) {
                             setState(() {
                               isSelected = false;
+                              //  mainContent = getEnglishContent(height);
+                              if (_pageController.hasClients) {
+                                _pageController.animateToPage(
+                                  0,
+                                  duration: const Duration(milliseconds: 1000),
+                                  curve: Curves.easeOutCirc,
+                                );
+                              }
                             });
                           },
                           backgroundColor: Colors.blue,
@@ -132,39 +169,50 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
               ),
-              getContent(height),
+              // mainContent,
+              Container(
+                margin: EdgeInsets.only(top: height / 9),
+                height: height,
+                child: PageView(
+                  controller: _pageController,
+                  physics: BouncingScrollPhysics(),
+                  pageSnapping: false,
+                  children: <Widget>[
+                    Card(
+                      color: Colors.grey[200],
+                      child: getEnglishContent(height),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0)),
+                    ),
+                    Card(
+                      color: Colors.grey[200],
+                      child: getSinhalaContent(height),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0)),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ));
   }
 
-  Widget getContent(height) {
-    double containerHeight = height / 9;
+  Widget getEnglishContent(height) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          SizedBox(
-            height: containerHeight - 4,
-          ),
           getTopicChip('Recent'),
           Container(
-              //color: Colors.white,
-              height: height / 3,
-              width: double.maxFinite,
-              child: ListView(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  getRecentCardComponent(height),
-                  getRecentCardComponent(height),
-                  getRecentCardComponent(height),
-                  getRecentCardComponent(height),
-                  getRecentCardComponent(height)
-                ],
-              )),
+            //color: Colors.white,
+            height: height / 3,
+            width: double.maxFinite,
+            child: loadMainCard(height, 'RecentEnglishArticles'),
+          ),
           getTopicChip('Tutorials'),
           Container(
               //color: Colors.white,
@@ -174,11 +222,45 @@ class _MyHomePageState extends State<MyHomePage> {
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
-                  getCardComponent(height),
-                  getCardComponent(height),
-                  getCardComponent(height),
-                  getCardComponent(height),
-                  getCardComponent(height)
+                  InkWell(
+                    onTap: () {},
+                    child: getCardComponent(
+                        height, 'assets/images/kotlin.png', 'Kotlin'),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: getCardComponent(
+                        height, 'assets/images/cloud.png', 'Cloud Computing'),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: getCardComponent(height, 'assets/images/network.png',
+                        'Computer Nteworking'),
+                  ),
+                  InkWell(
+                      onTap: () {},
+                      child: getCardComponent(
+                          height, 'assets/images/git.png', 'GIT')),
+                  InkWell(
+                    onTap: () {},
+                    child: getCardComponent(
+                        height, 'assets/images/python.png', 'Python'),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: getCardComponent(
+                        height, 'assets/images/js.png', 'JavaScript'),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: getCardComponent(
+                        height, 'assets/images/flutter.png', 'Flutter'),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: getCardComponent(
+                        height, 'assets/images/ml.png', 'Machine Learning'),
+                  )
                 ],
               )),
           getTopicChip('Other'),
@@ -190,11 +272,123 @@ class _MyHomePageState extends State<MyHomePage> {
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
-                  getCardComponent(height),
-                  getCardComponent(height),
-                  getCardComponent(height),
-                  getCardComponent(height),
-                  getCardComponent(height)
+                  InkWell(
+                    onTap: () {},
+                    child: getCardComponent(
+                        height, 'assets/images/law.png', 'Law Basics'),
+                  ),
+                  InkWell(
+                      onTap: () {},
+                      child: getCardComponent(
+                          height, 'assets/images/tech.png', 'Devices')),
+                  InkWell(
+                    child: getCardComponent(
+                        height, 'assets/images/devices.png', 'Tech News'),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: getCardComponent(height, 'assets/images/english.png',
+                        'English For Life'),
+                  ),
+                ],
+              )),
+        ],
+      ),
+    );
+  }
+
+  Widget getSinhalaContent(height) {
+    double containerHeight = height / 9;
+    return Padding(
+      padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          getTopicChip('Recent'),
+          Container(
+            //color: Colors.white,
+            height: height / 3,
+            width: double.maxFinite,
+            child: loadMainCard(height, 'RecentSinhalaArticles'),
+          ),
+          getTopicChip('Tutorials Sinhala'),
+          Container(
+              //color: Colors.white,
+              height: height / 6,
+              width: double.maxFinite,
+              child: ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+                  InkWell(
+                    onTap: () {},
+                    child: getCardComponent(
+                        height, 'assets/images/kotlin.png', 'Kotlin'),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: getCardComponent(
+                        height, 'assets/images/cloud.png', 'Cloud Computing'),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: getCardComponent(height, 'assets/images/network.png',
+                        'Computer Nteworking'),
+                  ),
+                  InkWell(
+                      onTap: () {},
+                      child: getCardComponent(
+                          height, 'assets/images/git.png', 'GIT')),
+                  InkWell(
+                    onTap: () {},
+                    child: getCardComponent(
+                        height, 'assets/images/python.png', 'Python'),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: getCardComponent(
+                        height, 'assets/images/js.png', 'JavaScript'),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: getCardComponent(
+                        height, 'assets/images/flutter.png', 'Flutter'),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: getCardComponent(
+                        height, 'assets/images/ml.png', 'Machine Learning'),
+                  )
+                ],
+              )),
+          getTopicChip('Other'),
+          Container(
+              //color: Colors.white,
+              height: height / 6,
+              width: double.maxFinite,
+              child: ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+                  InkWell(
+                    onTap: () {},
+                    child: getCardComponent(
+                        height, 'assets/images/law.png', 'Law Basics'),
+                  ),
+                  InkWell(
+                      onTap: () {},
+                      child: getCardComponent(
+                          height, 'assets/images/tech.png', 'Devices')),
+                  InkWell(
+                    child: getCardComponent(
+                        height, 'assets/images/devices.png', 'Tech News'),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: getCardComponent(height, 'assets/images/english.png',
+                        'English For Life'),
+                  ),
                 ],
               )),
         ],
