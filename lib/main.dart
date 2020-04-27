@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:readhubnew/Components/components.dart';
 import 'package:readhubnew/logic/callAPI.dart';
+import 'package:readhubnew/screens/postView.dart';
 
 void main() => runApp(MyApp());
 
@@ -232,12 +233,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/kotlin.png',
+                                  'Kotlin',
+                                  'https://readhub.lk/wp-json/wp/v2/posts?categories=102&per_page=15&_embed')));
+                    },
                     child: getCardComponent(
                         height, 'assets/images/kotlin.png', 'Kotlin'),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/cloud.png',
+                                  'Cloud Computing',
+                                  'https://readhub.lk/wp-json/wp/v2/posts?categories=5&per_page=15&_embed')));
+                    },
                     child: getCardComponent(
                         height, 'assets/images/cloud.png', 'Cloud Computing'),
                   ),

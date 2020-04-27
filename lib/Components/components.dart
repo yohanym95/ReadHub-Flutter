@@ -136,7 +136,7 @@ Widget getTopicChip(topic) {
 }
 
 Widget getRecentCardComponent(
-    height, authorImage, authorName, image, title, date, content,context) {
+    height, authorImage, authorName, image, title, date, content, context) {
   return InkWell(
     onTap: () {
       Navigator.push(
@@ -268,5 +268,80 @@ Widget loadMainCard(height, title) {
         return Text('No data');
       }
     },
+  );
+}
+
+Widget getPostCardComponent(
+    height, authorImage, authorName, image, title, date, content, context) {
+  return InkWell(
+    onTap: () {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ArticleView(
+                  authorImage, authorName, image, title, date, content)));
+    },
+    child: Container(
+      margin: EdgeInsets.only(left: 3, right: 3, bottom: 3),
+      child: Card(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          color: Colors.grey[300],
+          elevation: 3.0,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 4.0, right: 4.0, top: 4.0),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Container(
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(authorImage),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      authorName,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Poppins'),
+                    )
+                  ],
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 3),
+                  child: Image(
+                    image: NetworkImage(image),
+                    height: height / 6,
+                    width: height / 4,
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    title,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Poppins'),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 5.0),
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    date,
+                    style: TextStyle(fontSize: 14, fontFamily: 'Poppins'),
+                  ),
+                ),
+              ],
+            ),
+          )),
+    ),
   );
 }
