@@ -88,7 +88,7 @@ Widget getCardComponent(height, imagePath, title) {
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Container(
-          height: height / 8,
+          height: height / 7,
           width: height / 8,
           child: Column(
             children: <Widget>[
@@ -107,8 +107,7 @@ Widget getCardComponent(height, imagePath, title) {
                     title,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                        fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
                   ),
                 ),
               ),
@@ -125,7 +124,10 @@ Widget getTopicChip(topic) {
       elevation: 3,
       label: Text(
         topic,
-        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            fontFamily: 'Poppins'),
       ),
       backgroundColor: Colors.yellow[800],
     ),
@@ -157,29 +159,39 @@ Widget getRecentCardComponent(
                   ),
                   Text(
                     authorName,
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Poppins'),
                   )
                 ],
               ),
-              Image(
-                image: NetworkImage(image),
-                height: height / 6,
-                width: height / 4,
+              Container(
+                margin: EdgeInsets.only(top: 3),
+                child: Image(
+                  image: NetworkImage(image),
+                  height: height / 6,
+                  width: height / 4,
+                ),
               ),
               Container(
                 alignment: Alignment.topLeft,
                 child: Text(
                   title,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins'),
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(top: 4.0),
+                padding: EdgeInsets.only(top: 5.0),
                 alignment: Alignment.bottomLeft,
                 child: Text(
                   date,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 14, fontFamily: 'Poppins'),
                 ),
               ),
             ],

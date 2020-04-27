@@ -68,7 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(
                     letterSpacing: 3,
                     fontWeight: FontWeight.bold,
-                    fontSize: 20),
+                    fontSize: 20,
+                    fontFamily: 'Poppins'),
               )
             ],
           ),
@@ -112,7 +113,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         ChoiceChip(
-                          label: Text('Sinhala'),
+                          label: Text(
+                            'Sinhala',
+                            style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold),
+                          ),
                           elevation: 10,
                           pressElevation: 20.0,
                           selected: isSelected,
@@ -141,6 +147,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         ChoiceChip(
                           label: Text(
                             'English',
+                            style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold),
                           ),
                           selected: !isSelected,
                           elevation: 10,
@@ -172,7 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
               // mainContent,
               Container(
                 margin: EdgeInsets.only(top: height / 9),
-                height: height,
+                height: height + 20,
                 child: PageView(
                   controller: _pageController,
                   physics: BouncingScrollPhysics(),
@@ -216,7 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
           getTopicChip('Tutorials'),
           Container(
               //color: Colors.white,
-              height: height / 6,
+              height: height / 5,
               width: double.maxFinite,
               child: ListView(
                 shrinkWrap: true,
@@ -235,7 +244,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   InkWell(
                     onTap: () {},
                     child: getCardComponent(height, 'assets/images/network.png',
-                        'Computer Nteworking'),
+                        'Computer Networking'),
                   ),
                   InkWell(
                       onTap: () {},
@@ -266,7 +275,7 @@ class _MyHomePageState extends State<MyHomePage> {
           getTopicChip('Other'),
           Container(
               //color: Colors.white,
-              height: height / 6,
+              height: height / 5,
               width: double.maxFinite,
               child: ListView(
                 shrinkWrap: true,
