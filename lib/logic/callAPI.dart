@@ -19,7 +19,7 @@ Future<void> sendEnglishPosts(url) async {
   for (int i = 0; i < posts.length; i++) {
     Post post = posts[i];
     String title;
-    title = post.title.toString().replaceAll('&#8211;', '').replaceAll("&#x200d;", "").replaceAll('&#8230;', "").replaceAll("&amp;", "").replaceAll('&#8220;', '').replaceAll('&#8221;', '');
+    title = post.title.toString().replaceAll('&#8211;', '').replaceAll("&#x200d;", "").replaceAll('&#8230;', "").replaceAll("&amp;", "").replaceAll('&#8220;', '').replaceAll('&#8221;', '').replaceAll('&#8217;', '');
 
     FirebaseDatabase.instance
         .reference()

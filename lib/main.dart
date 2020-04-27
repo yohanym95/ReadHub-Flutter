@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:readhubnew/Components/components.dart';
 import 'package:readhubnew/logic/callAPI.dart';
 import 'package:readhubnew/screens/postView.dart';
+import 'package:readhubnew/screens/splashScreen.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: Splash(),
     );
   }
 }
@@ -28,10 +29,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   var data = ['Sinhala', 'English'];
   bool isSelected = false;
-  String englishUrl =
-      "https://readhub.lk/wp-json/wp/v2/posts?per_page=15&_embed";
-  String sinhalaUrl =
-      "https://sinhala.readhub.lk/wp-json/wp/v2/posts?per_page=15&_embed";
 
   PageController _pageController;
 
@@ -39,8 +36,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     // TODO: implement initState
     _pageController = PageController();
-    sendEnglishPosts(englishUrl);
-    sendSinhalaPosts(sinhalaUrl);
     super.initState();
   }
 
