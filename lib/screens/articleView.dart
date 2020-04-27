@@ -113,6 +113,16 @@ class _ArticleViewState extends State<ArticleView> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        backgroundColor: Colors.blue,
+        child: Icon(
+          Icons.arrow_back,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 

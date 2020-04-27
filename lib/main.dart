@@ -115,38 +115,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: <Widget>[
                         ChoiceChip(
                           label: Text(
-                            'Sinhala',
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.bold),
-                          ),
-                          elevation: 10,
-                          pressElevation: 20.0,
-                          selected: isSelected,
-                          selectedColor: Colors.deepPurple[400],
-                          onSelected: (bool value) {
-                            setState(() {
-                              isSelected = true;
-                              //  mainContent = getSinhalaContent(height);
-                              if (_pageController.hasClients) {
-                                _pageController.animateToPage(
-                                  1,
-                                  duration: const Duration(milliseconds: 1000),
-                                  curve: Curves.bounceInOut,
-                                );
-                              }
-                            });
-                          },
-                          backgroundColor: Colors.blue,
-                          labelStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey[100]),
-                        ),
-                        SizedBox(
-                          width: 3,
-                        ),
-                        ChoiceChip(
-                          label: Text(
                             'English',
                             style: TextStyle(
                                 fontFamily: 'Poppins',
@@ -174,6 +142,38 @@ class _MyHomePageState extends State<MyHomePage> {
                               fontWeight: FontWeight.bold,
                               color: Colors.grey[100]),
                         ),
+                        SizedBox(
+                          width: 3,
+                        ),
+                        ChoiceChip(
+                          label: Text(
+                            'Sinhala',
+                            style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold),
+                          ),
+                          elevation: 10,
+                          pressElevation: 20.0,
+                          selected: isSelected,
+                          selectedColor: Colors.deepPurple[400],
+                          onSelected: (bool value) {
+                            setState(() {
+                              isSelected = true;
+                              //  mainContent = getSinhalaContent(height);
+                              if (_pageController.hasClients) {
+                                _pageController.animateToPage(
+                                  1,
+                                  duration: const Duration(milliseconds: 1000),
+                                  curve: Curves.bounceInOut,
+                                );
+                              }
+                            });
+                          },
+                          backgroundColor: Colors.blue,
+                          labelStyle: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey[100]),
+                        ),
                       ],
                     )),
                   ],
@@ -185,7 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: height + 20,
                 child: PageView(
                   controller: _pageController,
-                  physics: BouncingScrollPhysics(),
+                  physics: NeverScrollableScrollPhysics(),
                   pageSnapping: false,
                   children: <Widget>[
                     Card(
@@ -259,31 +259,79 @@ class _MyHomePageState extends State<MyHomePage> {
                         height, 'assets/images/cloud.png', 'Cloud Computing'),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/network.png',
+                                  'Computer Networking',
+                                  'https://readhub.lk/wp-json/wp/v2/posts?categories=17&per_page=15&_embed')));
+                    },
                     child: getCardComponent(height, 'assets/images/network.png',
                         'Computer Networking'),
                   ),
                   InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PostView(
+                                    'assets/images/git.png',
+                                    'GIT',
+                                    'https://readhub.lk/wp-json/wp/v2/posts?categories=10&per_page=15&_embed')));
+                      },
                       child: getCardComponent(
                           height, 'assets/images/git.png', 'GIT')),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/python.png',
+                                  'Python',
+                                  'https://readhub.lk/wp-json/wp/v2/posts?categories=39&per_page=15&_embed')));
+                    },
                     child: getCardComponent(
                         height, 'assets/images/python.png', 'Python'),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/js.png',
+                                  'JavaScript',
+                                  'https://readhub.lk/wp-json/wp/v2/posts?categories=129&per_page=15&_embed')));
+                    },
                     child: getCardComponent(
                         height, 'assets/images/js.png', 'JavaScript'),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/flutter.png',
+                                  'Flutter',
+                                  'https://readhub.lk/wp-json/wp/v2/posts?categories=248&per_page=15&_embed')));
+                    },
                     child: getCardComponent(
                         height, 'assets/images/flutter.png', 'Flutter'),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/ml.png',
+                                  'Machine Learing',
+                                  'https://readhub.lk/wp-json/wp/v2/posts?categories=268&per_page=15&_embed')));
+                    },
                     child: getCardComponent(
                         height, 'assets/images/ml.png', 'Machine Learning'),
                   )
@@ -299,12 +347,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/law.png',
+                                  'Law Basics',
+                                  'https://readhub.lk/wp-json/wp/v2/posts?categories=148&per_page=15&_embed')));
+                    },
                     child: getCardComponent(
                         height, 'assets/images/law.png', 'Law Basics'),
                   ),
                   InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PostView(
+                                    'assets/images/tech.png',
+                                    'Devices',
+                                    'https://readhub.lk/wp-json/wp/v2/posts?categories=33&per_page=15&_embed')));
+                      },
                       child: getCardComponent(
                           height, 'assets/images/tech.png', 'Devices')),
                   InkWell(
@@ -312,7 +376,15 @@ class _MyHomePageState extends State<MyHomePage> {
                         height, 'assets/images/devices.png', 'Tech News'),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/english.png',
+                                  'English For Life',
+                                  'https://readhub.lk/wp-json/wp/v2/posts?categories=287&per_page=15&_embed')));
+                    },
                     child: getCardComponent(height, 'assets/images/english.png',
                         'English For Life'),
                   ),
@@ -338,7 +410,7 @@ class _MyHomePageState extends State<MyHomePage> {
             width: double.maxFinite,
             child: loadMainCard(height, 'RecentSinhalaArticles'),
           ),
-          getTopicChip('Tutorials Sinhala'),
+          getTopicChip('Tutorials සිංහලෙන්'),
           Container(
               //color: Colors.white,
               height: height / 6,
@@ -348,43 +420,185 @@ class _MyHomePageState extends State<MyHomePage> {
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/java.png',
+                                  'JAVA',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=766&per_page=15&_embed')));
+                    },
                     child: getCardComponent(
-                        height, 'assets/images/kotlin.png', 'Kotlin'),
+                        height, 'assets/images/java.png', 'JAVA'),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/angular.png',
+                                  'Angular',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=757&per_page=15&_embed')));
+                    },
                     child: getCardComponent(
-                        height, 'assets/images/cloud.png', 'Cloud Computing'),
+                        height, 'assets/images/angular.png', 'Angular'),
                   ),
                   InkWell(
-                    onTap: () {},
-                    child: getCardComponent(height, 'assets/images/network.png',
-                        'Computer Nteworking'),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/arduino.png',
+                                  'Arduino',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=1106&per_page=15&_embed')));
+                    },
+                    child: getCardComponent(
+                        height, 'assets/images/arduino.png', 'Arduino'),
                   ),
                   InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PostView(
+                                    'assets/images/php.png',
+                                    'PHP',
+                                    'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=917&per_page=15&_embed')));
+                      },
                       child: getCardComponent(
-                          height, 'assets/images/git.png', 'GIT')),
+                          height, 'assets/images/php.png', 'PHP')),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/html.png',
+                                  'HTML',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=930&per_page=15&_embed')));
+                    },
+                    child: getCardComponent(
+                        height, 'assets/images/html.png', 'HTML'),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/unity.png',
+                                  'Unity',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=753&per_page=15&_embed')));
+                    },
+                    child: getCardComponent(
+                        height, 'assets/images/unity.png', 'Unity'),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/git.png',
+                                  'GIT',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=185&per_page=15&_embed')));
+                    },
+                    child: getCardComponent(
+                        height, 'assets/images/git.png', 'GIT'),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/android.png',
+                                  'Android',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=952&per_page=15&_embed')));
+                    },
+                    child: getCardComponent(
+                        height, 'assets/images/android.png', 'Android'),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/fiverr.png',
+                                  'Fiverr',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=273&per_page=15&_embed')));
+                    },
+                    child: getCardComponent(
+                        height, 'assets/images/fiverr.png', 'Fiverr'),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/sql.png',
+                                  'SQL',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=943&per_page=15&_embed')));
+                    },
+                    child: getCardComponent(
+                        height, 'assets/images/sql.png', 'SQL'),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/react.png',
+                                  'React Native',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=975&per_page=15&_embed')));
+                    },
+                    child: getCardComponent(
+                        height, 'assets/images/react.png', 'React Native'),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/laravel.png',
+                                  'Laravel',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=1366&per_page=15&_embed')));
+                    },
+                    child: getCardComponent(
+                        height, 'assets/images/laravel.png', 'Laravel'),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/xml.png',
+                                  'XML',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=1310&per_page=15&_embed')));
+                    },
+                    child: getCardComponent(
+                        height, 'assets/images/xml.png', 'XML'),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/python.png',
+                                  'Python',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=1395&per_page=15&_embed')));
+                    },
                     child: getCardComponent(
                         height, 'assets/images/python.png', 'Python'),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: getCardComponent(
-                        height, 'assets/images/js.png', 'JavaScript'),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: getCardComponent(
-                        height, 'assets/images/flutter.png', 'Flutter'),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: getCardComponent(
-                        height, 'assets/images/ml.png', 'Machine Learning'),
                   )
                 ],
               )),
@@ -398,22 +612,107 @@ class _MyHomePageState extends State<MyHomePage> {
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/movies.png',
+                                  'Movies',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=35&per_page=15&_embed')));
+                    },
                     child: getCardComponent(
-                        height, 'assets/images/law.png', 'Law Basics'),
+                        height, 'assets/images/movies.png', 'Movies'),
                   ),
                   InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PostView(
+                                    'assets/images/games.png',
+                                    'Games',
+                                    'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=64&per_page=15&_embed')));
+                      },
                       child: getCardComponent(
-                          height, 'assets/images/tech.png', 'Devices')),
+                          height, 'assets/images/games.png', 'Games')),
                   InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/sport.png',
+                                  'Sport',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=57&per_page=15&_embed')));
+                    },
                     child: getCardComponent(
-                        height, 'assets/images/devices.png', 'Tech News'),
+                        height, 'assets/images/sport.png', 'Sport'),
                   ),
                   InkWell(
-                    onTap: () {},
-                    child: getCardComponent(height, 'assets/images/english.png',
-                        'English For Life'),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/animation.png',
+                                  'Animation',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=807&per_page=15&_embed')));
+                    },
+                    child: getCardComponent(height,
+                        'assets/images/animation.png', 'Animation සිංහලෙන්'),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/tech.png',
+                                  'Devices',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=195&per_page=15&_embed')));
+                    },
+                    child: getCardComponent(
+                        height, 'assets/images/tech.png', 'Devices'),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/devices.png',
+                                  'Tech News සිංහලෙන්',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=38&per_page=15&_embed')));
+                    },
+                    child: getCardComponent(height, 'assets/images/devices.png',
+                        'Tech News සිංහලෙන්'),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/devices.png',
+                                  'Tech News Tamil',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=218&per_page=15&_embed')));
+                    },
+                    child: getCardComponent(
+                        height, 'assets/images/devices.png', 'Tech News Tamil'),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/entertainment.png',
+                                  'Entertainment',
+                                  'https://sinhala.readhub.lk/wp-json/wp/v2/posts?categories=376&per_page=15&_embed')));
+                    },
+                    child: getCardComponent(height,
+                        'assets/images/entertainment.png', 'Entertainment'),
                   ),
                 ],
               )),

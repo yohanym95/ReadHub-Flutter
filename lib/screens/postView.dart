@@ -62,14 +62,20 @@ class _PostViewState extends State<PostView> {
               height: height / 2.5,
               child: Row(
                 children: <Widget>[
-                  Container(
-                      child: Image(
-                    image: AssetImage(imageUrl),
-                    height: height / 3,
-                  )),
+                  Expanded(
+                    child: Container(
+                        child: Image(
+                      image: AssetImage(imageUrl),
+                      height: height / 3,
+                    )),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Expanded(
                     child: Text(
                       topicTitle,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 22,
                           fontFamily: 'Poppins',
@@ -94,7 +100,7 @@ class _PostViewState extends State<PostView> {
                           child: CircularProgressIndicator(),
                         )
                       : Container(
-                         margin: EdgeInsets.only(top: 8),
+                          margin: EdgeInsets.only(top: 8),
                           child: ListView.builder(
                             itemCount: postlist.length,
                             shrinkWrap: true,
@@ -104,7 +110,15 @@ class _PostViewState extends State<PostView> {
                                   postlist[index].authorimage,
                                   postlist[index].authorname,
                                   postlist[index].image,
-                                  postlist[index].title,
+                                  postlist[index]
+                                      .title
+                                      .toString()
+                                      .replaceAll('&#8211;', '')
+                                      .replaceAll("&#x200d;", "")
+                                      .replaceAll('&#8230;', "")
+                                      .replaceAll("&amp;", "")
+                                      .replaceAll('&#8220;', '')
+                                      .replaceAll('&#8221;', ''),
                                   postlist[index].date,
                                   postlist[index].content,
                                   context);
@@ -113,6 +127,16 @@ class _PostViewState extends State<PostView> {
                         )),
             )
           ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        backgroundColor: Colors.blue,
+        child: Icon(
+          Icons.arrow_back,
+          color: Colors.white,
         ),
       ),
     );

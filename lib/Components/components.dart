@@ -90,7 +90,7 @@ Widget getCardComponent(height, imagePath, title) {
         padding: const EdgeInsets.all(4.0),
         child: Container(
           height: height / 7,
-          width: height / 8,
+          width: height / 7,
           child: Column(
             children: <Widget>[
               Image(
@@ -177,13 +177,18 @@ Widget getRecentCardComponent(
                   ],
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 3),
-                  child: Image(
-                    image: NetworkImage(image),
-                    height: height / 6,
-                    width: height / 4,
-                  ),
-                ),
+                    margin: EdgeInsets.only(top: 3),
+                    child: image == null
+                        ? Image(
+                            image: AssetImage('assets/images/recent.png'),
+                            height: height / 6,
+                            width: height / 4,
+                          )
+                        : Image(
+                            image: NetworkImage(image),
+                            height: height / 6,
+                            width: height / 4,
+                          )),
                 Container(
                   alignment: Alignment.topLeft,
                   child: Text(
@@ -313,13 +318,18 @@ Widget getPostCardComponent(
                   ],
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 3),
-                  child: Image(
-                    image: NetworkImage(image),
-                    height: height / 6,
-                    width: height / 4,
-                  ),
-                ),
+                    margin: EdgeInsets.only(top: 3),
+                    child: image == null
+                        ? Image(
+                            image: AssetImage('assets/images/recent.png'),
+                            height: height / 6,
+                            width: height / 4,
+                          )
+                        : Image(
+                            image: NetworkImage(image),
+                            height: height / 6,
+                            width: height / 4,
+                          )),
                 Container(
                   alignment: Alignment.topLeft,
                   child: Text(
