@@ -217,6 +217,7 @@ Widget getRecentCardComponent(
 
 Widget loadMainCard(height, title) {
   List<Article> postList = [];
+
   return FutureBuilder(
     future: FirebaseDatabase.instance
         .reference()
@@ -227,50 +228,102 @@ Widget loadMainCard(height, title) {
         .once(),
     // initialData: InitialData,
     builder: (BuildContext context, AsyncSnapshot snapshot) {
-      if (snapshot.hasData) {
-        var Data = snapshot.data.value;
-        if (Data != null) {
-          var keys = snapshot.data.value.keys;
-          postList.clear();
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return Center(
+            child: Stack(
+          children: <Widget>[
+            Container(
+              alignment: Alignment.center,
+              child: Image(
+                image: AssetImage('assets/images/readhub.png'),
+                height: height / 6,
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: CircularProgressIndicator(),
+            )
+          ],
+        ));
+      }
 
-          for (var individualKey in keys) {
-            Article article = new Article(
-                Data[individualKey]['id'],
-                Data[individualKey]['title'],
-                Data[individualKey]['authorImage'],
-                Data[individualKey]['authorname'],
-                Data[individualKey]['date'],
-                Data[individualKey]['content'],
-                Data[individualKey]['image']);
+      if (snapshot.connectionState == ConnectionState.done) {
+        if (snapshot.hasData) {
+          var Data = snapshot.data.value;
+          if (Data != null) {
+            var keys = snapshot.data.value.keys;
+            postList.clear();
 
-            postList.add(article);
-            // postList.sort();
+            for (var individualKey in keys) {
+              Article article = new Article(
+                  Data[individualKey]['id'],
+                  Data[individualKey]['title'],
+                  Data[individualKey]['authorImage'],
+                  Data[individualKey]['authorname'],
+                  Data[individualKey]['date'],
+                  Data[individualKey]['content'],
+                  Data[individualKey]['image']);
 
+              postList.add(article);
+              // postList.sort();
+
+            }
+            return postList.length == 0
+                ? SizedBox(
+                    height: 10,
+                    width: 10,
+                    child: Text('No Data'),
+                  )
+                : ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: postList.length,
+                    itemBuilder: (_, index) {
+                      return getRecentCardComponent(
+                          height,
+                          postList[index].authorimage,
+                          postList[index].authorname,
+                          postList[index].image,
+                          postList[index].title,
+                          postList[index].date,
+                          postList[index].content,
+                          context);
+                    },
+                  );
           }
-          return postList.length == 0
-              ? SizedBox(
-                  height: 10,
-                  width: 10,
-                  child: Text('No Data'),
-                )
-              : ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: postList.length,
-                  itemBuilder: (_, index) {
-                    return getRecentCardComponent(
-                        height,
-                        postList[index].authorimage,
-                        postList[index].authorname,
-                        postList[index].image,
-                        postList[index].title,
-                        postList[index].date,
-                        postList[index].content,
-                        context);
-                  },
-                );
+        } else {
+          return Center(
+              child: Stack(
+            children: <Widget>[
+              Container(
+                alignment: Alignment.center,
+                child: Image(
+                  image: AssetImage('assets/images/readhub.png'),
+                  height: height / 6,
+                ),
+              ),
+              Container(
+                alignment: Alignment.center,
+                child: CircularProgressIndicator(),
+              )
+            ],
+          ));
         }
-      } else {
-        return Text('No data');
+        return Center(
+            child: Stack(
+          children: <Widget>[
+            Container(
+              alignment: Alignment.center,
+              child: Image(
+                image: AssetImage('assets/images/readhub.png'),
+                height: height / 6,
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: CircularProgressIndicator(),
+            )
+          ],
+        ));
       }
     },
   );

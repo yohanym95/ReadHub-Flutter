@@ -12,31 +12,22 @@ class _SplashState extends State<Splash> {
       "https://readhub.lk/wp-json/wp/v2/posts?per_page=15&_embed";
   String sinhalaUrl =
       "https://sinhala.readhub.lk/wp-json/wp/v2/posts?per_page=15&_embed";
-  bool isSinhalaLoad = false;
-  bool isEnglishLoad = false;
+  // bool isSinhalaLoad = false;
+  // bool isEnglishLoad = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     sendEnglishPosts(englishUrl).then((onValue) {
-      isSinhalaLoad = true;
       sendSinhalaPosts(sinhalaUrl).then((onValue) {
-      isEnglishLoad = true;
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => MyHomePage()),
-        (Route<dynamic> route) => false,
-      );
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => MyHomePage()),
+          (Route<dynamic> route) => false,
+        );
+      });
     });
-    });
-    
-    // Future.delayed(Duration(seconds: 4), () {
-
-    // });
-    // if (isEnglishLoad && isSinhalaLoad) {
-      
-    // }
   }
 
   @override

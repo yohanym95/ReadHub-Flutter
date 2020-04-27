@@ -29,6 +29,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   var data = ['Sinhala', 'English'];
   bool isSelected = false;
+  bool _isLoading = false;
 
   PageController _pageController;
 

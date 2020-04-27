@@ -116,7 +116,23 @@ class _PostViewState extends State<PostView> {
               child: Container(
                   child: this.isLoading
                       ? Center(
-                          child: CircularProgressIndicator(),
+                          child: Center(
+                              child: Stack(
+                            children: <Widget>[
+                              Container(
+                                alignment: Alignment.center,
+                                child: Image(
+                                  image:
+                                      AssetImage('assets/images/readhub.png'),
+                                  height: height / 6,
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.center,
+                                child: CircularProgressIndicator(),
+                              )
+                            ],
+                          )),
                         )
                       : Container(
                           margin: EdgeInsets.only(top: 8),
