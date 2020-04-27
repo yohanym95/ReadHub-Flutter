@@ -32,10 +32,18 @@ class _ArticleViewState extends State<ArticleView> {
                   child: Image(
                     image: NetworkImage(image),
                   )),
-
-              // Icon(
-              //   Icons.arrow_back,
-              // )
+              Padding(
+                padding: const EdgeInsets.only(top: 30.0, left: 8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
               Container(
                 margin: EdgeInsets.only(top: height / 4),
                 // height: height,
@@ -100,7 +108,8 @@ class _ArticleViewState extends State<ArticleView> {
                       ],
                     ),
                     Html(
-                      defaultTextStyle: TextStyle(fontFamily: 'Poppins',fontSize: 13),
+                      defaultTextStyle:
+                          TextStyle(fontFamily: 'Poppins', fontSize: 13),
                       data: content,
                       onLinkTap: (String link) {
                         _launchUrl(link);
@@ -111,16 +120,6 @@ class _ArticleViewState extends State<ArticleView> {
               )
             ],
           ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        backgroundColor: Colors.blue,
-        child: Icon(
-          Icons.arrow_back,
-          color: Colors.white,
         ),
       ),
     );

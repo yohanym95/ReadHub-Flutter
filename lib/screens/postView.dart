@@ -61,30 +61,49 @@ class _PostViewState extends State<PostView> {
               ),
               height: height / 2.5,
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
                     child: Container(
+                        alignment: Alignment.center,
                         child: Image(
-                      image: AssetImage(imageUrl),
-                      height: height / 3,
-                    )),
+                          image: AssetImage(imageUrl),
+                          height: height / 3,
+                        )),
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Text(
-                      topicTitle,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 22,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                  )
                 ],
               ),
+            ),
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: 30.0, left: 8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 30.0, left: 8.0),
+                  child: Text(
+                    topicTitle,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                ),
+              ],
             ),
             Container(
               margin: EdgeInsets.only(top: height / 3),
@@ -127,16 +146,6 @@ class _PostViewState extends State<PostView> {
                         )),
             )
           ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        backgroundColor: Colors.blue,
-        child: Icon(
-          Icons.arrow_back,
-          color: Colors.white,
         ),
       ),
     );
