@@ -6,6 +6,7 @@ import 'package:readhubnew/Components/components.dart';
 import 'package:readhubnew/screens/postView.dart';
 import 'package:readhubnew/screens/splashScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   Crashlytics.instance.enableInDevMode = true;
@@ -18,6 +19,10 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ReadHub',
@@ -120,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Image(
-                image: NetworkImage(url),
+                image: AssetImage('assets/images/logo.png'),
                 width: 50,
                 height: 50,
               ),
@@ -155,6 +160,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           setState(() {
                             firebaseMessaging.unsubscribeFromTopic('ReadHub');
                             isSubscribe = false;
+                            showColoredToast(
+                                'Unsubscribe the Notifications of Application');
                             print('unsubscribe');
                           });
                         },
@@ -171,6 +178,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           setState(() {
                             firebaseMessaging.subscribeToTopic('ReadHub');
                             isSubscribe = true;
+                            showColoredToast(
+                                'Subscribe the Notifications of Application');
                             print('subscribe');
                           });
                         },
@@ -827,5 +836,5 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void handleClick(String value) {}
+  
 }

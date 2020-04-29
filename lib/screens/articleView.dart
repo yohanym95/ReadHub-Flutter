@@ -1,3 +1,4 @@
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -24,12 +25,53 @@ class _ArticleViewState extends State<ArticleView> {
 
   _ArticleViewState(this.authorImage, this.authorName, this.image, this.title,
       this.date, this.content, this.link);
+
+  InterstitialAd myInterstitial;
+
+//ca-app-pub-6817607400530928/9363328165
+  InterstitialAd buildInterstitialAd() {
+    return InterstitialAd(
+      adUnitId: 'ca-app-pub-6817607400530928/9363328165',
+      listener: (MobileAdEvent event) {
+        if (event == MobileAdEvent.failedToLoad) {
+          myInterstitial..load();
+        } else if (event == MobileAdEvent.closed) {
+          myInterstitial = buildInterstitialAd()..load();
+        }
+        print(event);
+      },
+    );
+  }
+
+  void showInterstitialAd() {
+    myInterstitial
+      ..show().then((onValue) {
+        Navigator.pop(context);
+      });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    myInterstitial = buildInterstitialAd()..load();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    myInterstitial.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return WillPopScope(
-      onWillPop: () {},
+      onWillPop: () {
+        showInterstitialAd();
+      },
       child: Scaffold(
         body: SingleChildScrollView(
           child: Container(
@@ -50,7 +92,7 @@ class _ArticleViewState extends State<ArticleView> {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
-                        Navigator.pop(context);
+                        showInterstitialAd();
                       },
                       child: Icon(
                         Icons.arrow_back,

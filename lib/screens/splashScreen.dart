@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:readhubnew/logic/callAPI.dart';
 import 'package:readhubnew/main.dart';
+import 'package:connectivity/connectivity.dart';
+import 'package:readhubnew/Components/components.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -12,13 +14,22 @@ class _SplashState extends State<Splash> {
       "https://readhub.lk/wp-json/wp/v2/posts?per_page=15&_embed";
   String sinhalaUrl =
       "https://sinhala.readhub.lk/wp-json/wp/v2/posts?per_page=15&_embed";
-  // bool isSinhalaLoad = false;
-  // bool isEnglishLoad = false;
+
+  Future<bool> check() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile) {
+      return true;
+    } else if (connectivityResult == ConnectivityResult.wifi) {
+      return true;
+    }
+    return false;
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     sendEnglishPosts(englishUrl).then((onValue) {
       sendSinhalaPosts(sinhalaUrl).then((onValue) {
         Navigator.pushAndRemoveUntil(
@@ -27,6 +38,8 @@ class _SplashState extends State<Splash> {
           (Route<dynamic> route) => false,
         );
       });
+    }).catchError((onError) {
+      showColoredToast('Please Check Your Internet Connection & Try again!');
     });
   }
 

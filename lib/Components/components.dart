@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info/package_info.dart';
 import 'package:readhubnew/Components/ovalrightborderclipper.dart';
@@ -211,6 +212,14 @@ Widget buildRow(IconData icon, String title) {
   );
 }
 
+void showColoredToast(message) {
+  Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      backgroundColor: Colors.blue,
+      textColor: Colors.white);
+}
+
 Widget getCardComponent(height, imagePath, title) {
   return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -332,12 +341,14 @@ Widget getRecentCardComponent(height, authorImage, authorName, image, title,
                           fontFamily: 'Poppins'),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(top: 5.0),
-                    alignment: Alignment.bottomLeft,
-                    child: Text(
-                      date,
-                      style: TextStyle(fontSize: 14, fontFamily: 'Poppins'),
+                  Expanded(
+                    child: Container(
+                       padding: EdgeInsets.only(bottom: 5.0),
+                      alignment: Alignment.bottomLeft,
+                      child: Text(
+                        date,
+                        style: TextStyle(fontSize: 14, fontFamily: 'Poppins'),
+                      ),
                     ),
                   ),
                 ],
@@ -356,7 +367,7 @@ Widget loadMainCard(height, title) {
         .reference()
         .child('Articles')
         .child(title)
-        .limitToLast(5)
+        .limitToLast(8)
         .orderByChild('id')
         .once(),
     // initialData: InitialData,
@@ -480,19 +491,19 @@ Widget getPostCardComponent(height, authorImage, authorName, image, title, date,
     content, link, context) {
   return Material(
     color: Colors.transparent,
-      child: InkWell(
+    child: InkWell(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ArticleView(
-                    authorImage, authorName, image, title, date, content, link)));
+                builder: (context) => ArticleView(authorImage, authorName,
+                    image, title, date, content, link)));
       },
       child: Container(
         margin: EdgeInsets.only(left: 3, right: 3, bottom: 3),
         child: Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
             color: Colors.grey[300],
             elevation: 3.0,
             child: Padding(
