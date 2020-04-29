@@ -28,10 +28,10 @@ class _ArticleViewState extends State<ArticleView> {
 
   InterstitialAd myInterstitial;
 
-//ca-app-pub-6817607400530928/9363328165
+//##3
   InterstitialAd buildInterstitialAd() {
     return InterstitialAd(
-      adUnitId: 'ca-app-pub-6817607400530928/9363328165',
+      adUnitId: '####',
       listener: (MobileAdEvent event) {
         if (event == MobileAdEvent.failedToLoad) {
           myInterstitial..load();
