@@ -1,13 +1,21 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:readhubnew/Components/components.dart';
-import 'package:readhubnew/logic/callAPI.dart';
 import 'package:readhubnew/screens/postView.dart';
 import 'package:readhubnew/screens/splashScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  Crashlytics.instance.enableInDevMode = true;
+
+  // Pass all uncaught errors from the framework to Crashlytics.
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,14 +37,71 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   var data = ['Sinhala', 'English'];
   bool isSelected = false;
-  bool _isLoading = false;
+  bool isSubscribe = false;
 
   PageController _pageController;
+
+  FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
+
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  Future<void> setValue() async {
+    final SharedPreferences prefs = await _prefs;
+
+    if (prefs.getString("newOne") == null) {
+      prefs.setString("newOne", "new");
+      prefs.setString("subscribe", "subscribe");
+      firebaseMessaging.subscribeToTopic('ReadHub');
+      isSubscribe = true;
+    } else {
+      if (prefs.getString("subscribe") == "subscribe") {
+        isSubscribe = true;
+      } else if (prefs.getString("subscribe") == "subscribe") {
+        isSubscribe = false;
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _pageController.dispose();
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     _pageController = PageController();
+    setValue();
+    super.initState();
+    firebaseMessaging.configure(
+      onLaunch: (Map<String, dynamic> msg) {
+        print("onLaunch called");
+      },
+      onResume: (Map<String, dynamic> msg) {
+        print("onResume called");
+      },
+      onMessage: (Map<String, dynamic> msg) {
+        print("pnMessage called");
+      },
+    );
+
+    firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, alert: true, badge: true));
+
+    firebaseMessaging.onIosSettingsRegistered.listen((onData) {
+      print('IOS Setting registered : ');
+    });
+
+    firebaseMessaging.getToken().then((token) {
+      print('tokenhOMEpAGE: $token');
+      // textValue = token;
+      DatabaseReference databaseReference = new FirebaseDatabase().reference();
+      databaseReference.child('fcm-token/${token}').set({'token': token});
+      setState(() {});
+    });
+
     super.initState();
   }
 
@@ -78,8 +143,44 @@ class _MyHomePageState extends State<MyHomePage> {
                     end: Alignment.bottomRight,
                     colors: <Color>[Colors.blue[200], Colors.blue])),
           ),
+          actions: <Widget>[
+            isSubscribe
+                ? Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: Material(
+                      clipBehavior: Clip.hardEdge,
+                      child: InkWell(
+                        child: Icon(Icons.notifications_active),
+                        onTap: () {
+                          setState(() {
+                            firebaseMessaging.unsubscribeFromTopic('ReadHub');
+                            isSubscribe = false;
+                            print('unsubscribe');
+                          });
+                        },
+                      ),
+                      color: Colors.transparent,
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: Material(
+                      child: InkWell(
+                        child: Icon(Icons.notifications_off),
+                        onTap: () {
+                          setState(() {
+                            firebaseMessaging.subscribeToTopic('ReadHub');
+                            isSubscribe = true;
+                            print('subscribe');
+                          });
+                        },
+                      ),
+                      color: Colors.transparent,
+                    ),
+                  )
+          ],
         ),
-        drawer: buildDrawer(),
+        drawer: buildDrawer(context, height),
         body: SingleChildScrollView(
           child: Stack(
             children: <Widget>[
@@ -368,6 +469,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: getCardComponent(
                           height, 'assets/images/tech.png', 'Devices')),
                   InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostView(
+                                  'assets/images/devices.png',
+                                  'Tech News',
+                                  'https://readhub.lk/wp-json/wp/v2/posts?categories=3&per_page=15&_embed')));
+                    },
                     child: getCardComponent(
                         height, 'assets/images/devices.png', 'Tech News'),
                   ),
@@ -716,4 +826,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  void handleClick(String value) {}
 }

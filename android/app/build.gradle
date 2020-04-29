@@ -25,7 +25,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
-apply plugin: 'com.google.gms.google-services'
+
 
 android {
     compileSdkVersion 28
@@ -70,3 +70,6 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation "com.google.android.gms:play-services-base:17.0.0"
 }
+
+apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'

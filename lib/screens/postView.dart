@@ -156,6 +156,7 @@ class _PostViewState extends State<PostView> {
                                       .replaceAll('&#8221;', ''),
                                   postlist[index].date,
                                   postlist[index].content,
+                                  postlist[index].link,
                                   context);
                             },
                           ),

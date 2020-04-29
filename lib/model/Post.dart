@@ -7,6 +7,7 @@ class Post {
   final String date;
   final String content;
   final String image;
+  final String link;
   bool isSaved = false;
 
   Post(
@@ -18,7 +19,8 @@ class Post {
       this.date,
       this.image,
       this.authorimage,
-      this.authorname
+      this.authorname,
+      this.link
     }
   );
 
@@ -36,6 +38,7 @@ class Post {
       excerpt: json['excerpt']['rendered'],
       authorimage: json['_embedded']['author'][0]['avatar_urls']['96'],
       authorname: json['_embedded']['author'][0]['name'].toString(),
+      link: json['link']
     );
   }
 }

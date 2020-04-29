@@ -6,7 +6,8 @@ class Article {
   String date;
   String content;
   String image;
+  String link;
 
   Article(this.id, this.title, this.authorimage, this.authorname, this.date,
-      this.content, this.image);
+      this.content, this.image,this.link);
 }

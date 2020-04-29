@@ -33,7 +33,8 @@ Future<void> sendEnglishPosts(url) async {
       'authorname': post.authorname,
       'authorImage': post.authorimage,
       'content': post.content,
-      'date': post.date
+      'date': post.date,
+      'link' : post.link
     }).then((onValue) {
       print('sent to haven');
     }).catchError((onError) {
@@ -70,7 +71,8 @@ Future<void> sendSinhalaPosts(url) async {
       'authorname': post.authorname,
       'authorImage': post.authorimage,
       'content': post.content,
-      'date': post.date
+      'date': post.date,
+      'link' : post.link
     }).then((onValue) {
       print('sent to haven');
     }).catchError((onError) {
