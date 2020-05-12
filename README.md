@@ -1,6 +1,7 @@
 # readhubnew
 
-A new Flutter project.
+This is a project for new versions of ReadHub Official App. ReadHub App is moving to flutter from native android. 
+App Link - https://bit.ly/35yLBCf
 
 ## Getting Started
 
